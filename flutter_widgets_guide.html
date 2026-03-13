@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Flutter Widgets Learning Guide</title>
+
+<style>
+
+body{
+font-family: Arial;
+margin:40px;
+background:#f2f4f7;
+line-height:1.6;
+}
+
+h1{
+color:#1e4fa3;
+}
+
+h2{
+color:#2b2b2b;
+margin-top:30px;
+}
+
+.section{
+background:white;
+padding:20px;
+margin-bottom:25px;
+border-radius:8px;
+box-shadow:0px 2px 8px rgba(0,0,0,0.1);
+}
+
+pre{
+background:#1e1e1e;
+color:white;
+padding:15px;
+border-radius:6px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+}
+
+th{
+background:#e8eef9;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Flutter Widgets Complete Learning Guide</h1>
+
+<p>
+Flutter UI is built using widgets. Everything visible on the screen is a widget.
+This guide explains the most important widgets every beginner should learn.
+</p>
+
+<div class="section">
+
+<h2>1. Scaffold</h2>
+
+<p>Scaffold provides the basic layout of a screen.</p>
+
+<pre>
+Scaffold(
+ appBar: AppBar(title: Text("Home")),
+ body: Center(
+  child: Text("Hello Flutter")
+ )
+)
+</pre>
+
+<table>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>appBar</td>
+<td>Top navigation bar</td>
+</tr>
+
+<tr>
+<td>body</td>
+<td>Main content area</td>
+</tr>
+
+<tr>
+<td>drawer</td>
+<td>Side navigation menu</td>
+</tr>
+
+<tr>
+<td>floatingActionButton</td>
+<td>Floating button</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="section">
+
+<h2>2. AppBar</h2>
+
+<p>AppBar is the top bar of an application.</p>
+
+<pre>
+AppBar(
+ title: Text("Dashboard"),
+ centerTitle: true,
+ actions: [
+  Icon(Icons.search)
+ ]
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>3. Container</h2>
+
+<p>Container is used for layout, styling and positioning.</p>
+
+<pre>
+Container(
+ width:200,
+ height:100,
+ color:Colors.blue,
+ child: Text("Hello")
+)
+</pre>
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>width</td>
+<td>Set container width</td>
+</tr>
+
+<tr>
+<td>height</td>
+<td>Set container height</td>
+</tr>
+
+<tr>
+<td>padding</td>
+<td>Space inside container</td>
+</tr>
+
+<tr>
+<td>margin</td>
+<td>Space outside container</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="section">
+
+<h2>4. Text Widget</h2>
+
+<p>Used to display text.</p>
+
+<pre>
+Text(
+ "Hello Flutter",
+ style: TextStyle(
+  fontSize:20,
+  fontWeight:FontWeight.bold
+ )
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>5. Row</h2>
+
+<p>Row arranges widgets horizontally.</p>
+
+<pre>
+Row(
+ children:[
+  Icon(Icons.home),
+  Text("Home")
+ ]
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>6. Column</h2>
+
+<p>Column arranges widgets vertically.</p>
+
+<pre>
+Column(
+ children:[
+  Text("Title"),
+  Text("Subtitle")
+ ]
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>7. Padding</h2>
+
+<p>Adds space around a widget.</p>
+
+<pre>
+Padding(
+ padding: EdgeInsets.all(20),
+ child: Text("Hello")
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>8. SizedBox</h2>
+
+<p>Creates fixed spacing.</p>
+
+<pre>
+SizedBox(height:20)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>9. Image</h2>
+
+<p>Displays images.</p>
+
+<pre>
+Image.asset("assets/image.png")
+
+Image.network("https://example.com/image.png")
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>10. ListView</h2>
+
+<p>Scrollable list.</p>
+
+<pre>
+ListView(
+ children:[
+  Text("Item 1"),
+  Text("Item 2")
+ ]
+)
+</pre>
+
+<pre>
+ListView.builder(
+ itemCount:10,
+ itemBuilder:(context,index){
+  return Text("Item $index");
+ }
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>11. Stack</h2>
+
+<p>Stack allows widgets to overlap.</p>
+
+<pre>
+Stack(
+ children:[
+  Image.asset("bg.png"),
+  Text("Overlay Text")
+ ]
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>12. Buttons</h2>
+
+<h3>ElevatedButton</h3>
+
+<pre>
+ElevatedButton(
+ onPressed:(){},
+ child:Text("Submit")
+)
+</pre>
+
+<h3>OutlinedButton</h3>
+
+<pre>
+OutlinedButton(
+ onPressed:(){},
+ child:Text("Cancel")
+)
+</pre>
+
+<h3>TextButton</h3>
+
+<pre>
+TextButton(
+ onPressed:(){},
+ child:Text("Skip")
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>13. TextField</h2>
+
+<p>User text input field.</p>
+
+<pre>
+TextField(
+ decoration: InputDecoration(
+  hintText:"Enter Name"
+ )
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>14. GestureDetector</h2>
+
+<p>Detects user gestures.</p>
+
+<pre>
+GestureDetector(
+ onTap:(){
+  print("Tapped");
+ },
+ child: Container(
+  color: Colors.blue,
+  height:50
+ )
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>15. SafeArea</h2>
+
+<p>Prevents UI from overlapping system areas.</p>
+
+<pre>
+SafeArea(
+ child: Text("Safe Content")
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>16. MediaQuery</h2>
+
+<p>Gets screen size.</p>
+
+<pre>
+double width = MediaQuery.of(context).size.width;
+double height = MediaQuery.of(context).size.height;
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>17. Navigation</h2>
+
+<p>Move between screens.</p>
+
+<pre>
+Navigator.push(
+ context,
+ MaterialPageRoute(
+  builder:(context)=>NextScreen()
+ )
+)
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h2>Flutter UI Layout Structure</h2>
+
+<pre>
+MaterialApp
+   |
+Scaffold
+   |
+SafeArea
+   |
+Column / Row
+   |
+Container / Card
+   |
+Text / Image / Buttons
+</pre>
+
+</div>
+
+</body>
+</html>
