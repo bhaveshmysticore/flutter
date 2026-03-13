@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Flutter Complete Learning Guide</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6fa;
+margin:40px;
+line-height:1.7;
+}
+
+h1{
+color:#1e4fa3;
+}
+
+h2{
+margin-top:40px;
+color:#333;
+}
+
+.section{
+background:white;
+padding:25px;
+margin-bottom:30px;
+border-radius:10px;
+box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+}
+
+pre{
+background:#1e1e1e;
+color:white;
+padding:15px;
+border-radius:6px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+}
+
+th{
+background:#eef2ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Flutter Complete Learning Guide</h1>
+
+<p>
+This documentation explains Flutter widgets from beginner to advanced level.
+Flutter builds UI using widgets. Everything you see in a Flutter application is a widget.
+</p>
+
+<!-- INTRODUCTION -->
+
+<div class="section">
+
+<h2>1. What is Flutter?</h2>
+
+<p>
+Flutter is an open-source UI framework developed by Google used to build
+mobile, web, and desktop applications from a single codebase.
+</p>
+
+<p>
+Flutter uses the Dart programming language and follows a widget-based architecture.
+</p>
+
+</div>
+
+
+<!-- CORE WIDGETS -->
+
+<div class="section">
+
+<h2>2. Core Widgets</h2>
+
+<h3>Text Widget</h3>
+
+<p>Displays text on screen.</p>
+
+<pre>
+Text(
+ "Hello Flutter",
+ style: TextStyle(
+  fontSize:20,
+  fontWeight:FontWeight.bold
+ )
+)
+</pre>
+
+<h3>Container Widget</h3>
+
+<p>
+Container is used to control layout, styling, and spacing.
+</p>
+
+<pre>
+Container(
+ width:200,
+ height:100,
+ color:Colors.blue,
+ child:Text("Hello")
+)
+</pre>
+
+</div>
+
+
+<!-- LAYOUT WIDGETS -->
+
+<div class="section">
+
+<h2>3. Layout Widgets</h2>
+
+<h3>Row</h3>
+
+<p>Row arranges widgets horizontally.</p>
+
+<pre>
+Row(
+ children:[
+  Icon(Icons.star),
+  Text("Rating")
+ ]
+)
+</pre>
+
+<h3>Column</h3>
+
+<p>Column arranges widgets vertically.</p>
+
+<pre>
+Column(
+ children:[
+  Text("Title"),
+  Text("Description")
+ ]
+)
+</pre>
+
+<h3>Stack</h3>
+
+<p>Stack places widgets on top of each other.</p>
+
+<pre>
+Stack(
+ children:[
+  Image.asset("bg.png"),
+  Text("Overlay Text")
+ ]
+)
+</pre>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="section">
+
+<h2>4. Button Widgets</h2>
+
+<h3>ElevatedButton</h3>
+
+<pre>
+ElevatedButton(
+ onPressed:(){},
+ child:Text("Submit")
+)
+</pre>
+
+<h3>OutlinedButton</h3>
+
+<pre>
+OutlinedButton(
+ onPressed:(){},
+ child:Text("Cancel")
+)
+</pre>
+
+<h3>TextButton</h3>
+
+<pre>
+TextButton(
+ onPressed:(){},
+ child:Text("Skip")
+)
+</pre>
+
+</div>
+
+
+<!-- INPUT WIDGETS -->
+
+<div class="section">
+
+<h2>5. Input Widgets</h2>
+
+<h3>TextField</h3>
+
+<pre>
+TextField(
+ decoration:InputDecoration(
+  hintText:"Enter Name"
+ )
+)
+</pre>
+
+<h3>Checkbox</h3>
+
+<pre>
+Checkbox(
+ value:true,
+ onChanged:(value){}
+)
+</pre>
+
+<h3>Switch</h3>
+
+<pre>
+Switch(
+ value:true,
+ onChanged:(value){}
+)
+</pre>
+
+</div>
+
+
+<!-- LIST WIDGETS -->
+
+<div class="section">
+
+<h2>6. List Widgets</h2>
+
+<h3>ListView</h3>
+
+<pre>
+ListView(
+ children:[
+  Text("Item 1"),
+  Text("Item 2")
+ ]
+)
+</pre>
+
+<h3>GridView</h3>
+
+<pre>
+GridView.count(
+ crossAxisCount:2,
+ children:[
+  Container(color:Colors.red),
+  Container(color:Colors.blue)
+ ]
+)
+</pre>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="section">
+
+<h2>7. Navigation</h2>
+
+<p>
+Navigation is used to move between screens.
+</p>
+
+<pre>
+Navigator.push(
+ context,
+ MaterialPageRoute(
+  builder:(context)=>NextScreen()
+ )
+)
+</pre>
+
+</div>
+
+
+<!-- RESPONSIVE DESIGN -->
+
+<div class="section">
+
+<h2>8. Responsive Design</h2>
+
+<p>
+MediaQuery helps create responsive UI.
+</p>
+
+<pre>
+double width = MediaQuery.of(context).size.width;
+double height = MediaQuery.of(context).size.height;
+</pre>
+
+</div>
+
+
+<!-- BEST PRACTICES -->
+
+<div class="section">
+
+<h2>Flutter Layout Pattern</h2>
+
+<pre>
+MaterialApp
+   |
+Scaffold
+   |
+SafeArea
+   |
+Column / Row
+   |
+Container / Card
+   |
+Text / Image / Buttons
+</pre>
+
+</div>
+
+</body>
+</html>
