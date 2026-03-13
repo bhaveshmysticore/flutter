@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Complete Flutter Widgets Learning Guide</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background:#f5f7fb;
+margin:40px;
+line-height:1.7;
+color:#333;
+}
+
+h1{
+color:#1c4fb8;
+}
+
+h2{
+color:#222;
+margin-top:40px;
+}
+
+h3{
+color:#555;
+}
+
+.section{
+background:white;
+padding:25px;
+margin-bottom:25px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+pre{
+background:#1e1e1e;
+color:#fff;
+padding:15px;
+border-radius:6px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#eef2fb;
+}
+
+.note{
+background:#fff8d6;
+padding:10px;
+border-left:5px solid #f4c542;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Flutter Widgets Complete Learning Guide (Beginner → Professional)</h1>
+
+<p>
+Flutter applications are built completely using widgets.  
+A widget represents a part of the user interface such as text, image, button, layout, or screen structure.
+</p>
+
+<p>
+This guide explains the most important Flutter widgets with examples so beginners can understand how UI is built.
+</p>
+
+<div class="section">
+
+<h2>1. Scaffold</h2>
+
+<h3>What is Scaffold?</h3>
+
+<p>
+Scaffold is the main layout structure of a Flutter screen.  
+Almost every page in a Flutter app uses Scaffold because it provides common UI elements like:
+</p>
+
+<ul>
+<li>AppBar (top navigation bar)</li>
+<li>Body (main screen content)</li>
+<li>Drawer (side menu)</li>
+<li>Floating Action Button</li>
+<li>Bottom Navigation Bar</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre>
+Scaffold(
+ appBar: AppBar(
+  title: Text("Home Screen")
+ ),
+ body: Center(
+  child: Text("Welcome to Flutter")
+ )
+)
+</pre>
+
+<h3>Important Properties</h3>
+
+<table>
+<tr>
+<th>Property</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>appBar</td>
+<td>Top navigation bar</td>
+</tr>
+
+<tr>
+<td>body</td>
+<td>Main screen UI</td>
+</tr>
+
+<tr>
+<td>drawer</td>
+<td>Side navigation menu</td>
+</tr>
+
+<tr>
+<td>floatingActionButton</td>
+<td>Floating button for quick actions</td>
+</tr>
+
+<tr>
+<td>bottomNavigationBar</td>
+<td>Bottom navigation tabs</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>2. Container</h2>
+
+<h3>Purpose</h3>
+
+<p>
+Container is one of the most commonly used widgets.  
+It works like a box that can contain other widgets and allows you to control layout and styling.
+</p>
+
+<h3>Common Uses</h3>
+
+<ul>
+<li>Adding background color</li>
+<li>Setting width and height</li>
+<li>Adding padding and margin</li>
+<li>Applying borders and radius</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre>
+Container(
+ width:200,
+ height:100,
+ color:Colors.blue,
+ child:Center(
+  child:Text("Hello")
+ )
+)
+</pre>
+
+<h3>Important Properties</h3>
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>width</td>
+<td>Defines container width</td>
+</tr>
+
+<tr>
+<td>height</td>
+<td>Defines container height</td>
+</tr>
+
+<tr>
+<td>padding</td>
+<td>Space inside container</td>
+</tr>
+
+<tr>
+<td>margin</td>
+<td>Space outside container</td>
+</tr>
+
+<tr>
+<td>decoration</td>
+<td>Styling such as border and radius</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>3. Text Widget</h2>
+
+<h3>Purpose</h3>
+
+<p>
+Text widget displays text on the screen.  
+It is used for titles, descriptions, labels, buttons, and messages.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+Text(
+ "Hello Flutter",
+ style: TextStyle(
+  fontSize:20,
+  fontWeight:FontWeight.bold,
+  color:Colors.black
+ )
+)
+</pre>
+
+<h3>Important Properties</h3>
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>style</td>
+<td>Controls text appearance</td>
+</tr>
+
+<tr>
+<td>textAlign</td>
+<td>Text alignment</td>
+</tr>
+
+<tr>
+<td>maxLines</td>
+<td>Limit text lines</td>
+</tr>
+
+<tr>
+<td>overflow</td>
+<td>Handle long text overflow</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>4. Row</h2>
+
+<h3>Purpose</h3>
+
+<p>
+Row widget arranges its children horizontally.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+Row(
+ children:[
+  Icon(Icons.star),
+  Text("Rating")
+ ]
+)
+</pre>
+
+<h3>Important Properties</h3>
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>mainAxisAlignment</td>
+<td>Controls horizontal spacing</td>
+</tr>
+
+<tr>
+<td>crossAxisAlignment</td>
+<td>Controls vertical alignment</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>5. Column</h2>
+
+<h3>Purpose</h3>
+
+<p>
+Column arranges widgets vertically.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+Column(
+ children:[
+  Text("Title"),
+  Text("Subtitle")
+ ]
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>6. Padding</h2>
+
+<p>
+Padding adds space around a widget inside its boundary.
+</p>
+
+<pre>
+Padding(
+ padding:EdgeInsets.all(20),
+ child:Text("Hello")
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>7. SizedBox</h2>
+
+<p>
+SizedBox is used to create empty space between widgets or set fixed width/height.
+</p>
+
+<pre>
+SizedBox(height:20)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>8. Image Widget</h2>
+
+<p>
+Image widget is used to display images in Flutter applications.
+</p>
+
+<h3>Asset Image</h3>
+
+<pre>
+Image.asset("assets/images/logo.png")
+</pre>
+
+<h3>Network Image</h3>
+
+<pre>
+Image.network("https://example.com/image.png")
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>9. ListView</h2>
+
+<p>
+ListView displays scrollable lists of items.
+</p>
+
+<h3>Static List</h3>
+
+<pre>
+ListView(
+ children:[
+  Text("Item 1"),
+  Text("Item 2"),
+  Text("Item 3")
+ ]
+)
+</pre>
+
+<h3>Dynamic List</h3>
+
+<pre>
+ListView.builder(
+ itemCount:10,
+ itemBuilder:(context,index){
+  return Text("Item $index");
+ }
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>10. SafeArea</h2>
+
+<p>
+SafeArea ensures UI elements do not overlap with system areas like:
+</p>
+
+<ul>
+<li>Status bar</li>
+<li>Notch</li>
+<li>Gesture navigation area</li>
+</ul>
+
+<pre>
+SafeArea(
+ child:Text("Safe Content")
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>11. GestureDetector</h2>
+
+<p>
+GestureDetector detects user interactions such as taps or long presses.
+</p>
+
+<pre>
+GestureDetector(
+ onTap:(){
+  print("Tapped");
+ },
+ child:Container(
+  color:Colors.blue,
+  height:50,
+  width:100
+ )
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>12. Navigation</h2>
+
+<p>
+Navigation allows moving between different screens.
+</p>
+
+<pre>
+Navigator.push(
+ context,
+ MaterialPageRoute(
+  builder:(context)=>NextScreen()
+ )
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>Basic Flutter Layout Structure</h2>
+
+<pre>
+MaterialApp
+   |
+Scaffold
+   |
+SafeArea
+   |
+Column / Row
+   |
+Container
+   |
+Text / Image / Button
+</pre>
+
+<p>
+Most Flutter applications follow this structure when building screens.
+</p>
+
+</div>
+
+</body>
+</html>
