@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Complete Flutter Learning Guide</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background:#f5f7fb;
+margin:40px;
+line-height:1.7;
+color:#333;
+}
+
+h1{
+color:#1e4fa3;
+}
+
+h2{
+margin-top:40px;
+color:#222;
+}
+
+h3{
+color:#444;
+}
+
+.section{
+background:white;
+padding:30px;
+margin-bottom:30px;
+border-radius:10px;
+box-shadow:0 3px 12px rgba(0,0,0,0.1);
+}
+
+pre{
+background:#1e1e1e;
+color:white;
+padding:15px;
+border-radius:6px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#eef2fb;
+}
+
+.note{
+background:#fff7d6;
+padding:10px;
+border-left:5px solid #f0c000;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Flutter Complete Learning Guide</h1>
+
+<p>
+This guide explains Flutter from beginner to advanced level.  
+Flutter builds UI using widgets. Every UI element in Flutter is a widget.
+</p>
+
+<p>
+Goal of this guide:
+</p>
+
+<ul>
+<li>Understand Flutter architecture</li>
+<li>Learn important widgets</li>
+<li>Build responsive layouts</li>
+<li>Handle forms and user input</li>
+<li>Implement navigation</li>
+<li>Create animations</li>
+</ul>
+
+<div class="section">
+
+<h2>1. Flutter Application Structure</h2>
+
+<pre>
+void main(){
+ runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget{
+
+ @override
+ Widget build(BuildContext context){
+
+  return MaterialApp(
+   title:"Flutter App",
+   home:HomeScreen()
+  );
+
+ }
+
+}
+</pre>
+
+<p>
+Explanation:
+</p>
+
+<ul>
+<li><b>main()</b> → Starting point of Flutter application</li>
+<li><b>runApp()</b> → Loads root widget</li>
+<li><b>MaterialApp</b> → Main app configuration</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>2. Scaffold Widget</h2>
+
+<p>
+Scaffold provides the basic layout structure of a screen.
+</p>
+
+<pre>
+Scaffold(
+ appBar:AppBar(
+  title:Text("Home")
+ ),
+ body:Center(
+  child:Text("Welcome")
+ ),
+ floatingActionButton:FloatingActionButton(
+  onPressed:(){},
+  child:Icon(Icons.add)
+ )
+)
+</pre>
+
+<h3>Main Properties</h3>
+
+<table>
+<tr>
+<th>Property</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>appBar</td>
+<td>Top navigation bar</td>
+</tr>
+
+<tr>
+<td>body</td>
+<td>Main screen content</td>
+</tr>
+
+<tr>
+<td>drawer</td>
+<td>Side navigation menu</td>
+</tr>
+
+<tr>
+<td>floatingActionButton</td>
+<td>Main action button</td>
+</tr>
+
+<tr>
+<td>bottomNavigationBar</td>
+<td>Bottom navigation tabs</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>3. Container Widget</h2>
+
+<p>
+Container is used to control layout and styling.
+</p>
+
+<pre>
+Container(
+ width:200,
+ height:120,
+ padding:EdgeInsets.all(10),
+ decoration:BoxDecoration(
+  color:Colors.blue,
+  borderRadius:BorderRadius.circular(10)
+ ),
+ child:Text("Hello Flutter")
+)
+</pre>
+
+<h3>Important Properties</h3>
+
+<table>
+<tr><th>Property</th><th>Description</th></tr>
+<tr><td>width</td><td>Container width</td></tr>
+<tr><td>height</td><td>Container height</td></tr>
+<tr><td>padding</td><td>Inner spacing</td></tr>
+<tr><td>margin</td><td>Outer spacing</td></tr>
+<tr><td>decoration</td><td>Styling</td></tr>
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>4. Text Widget</h2>
+
+<p>
+Text widget displays text.
+</p>
+
+<pre>
+Text(
+ "Hello World",
+ style:TextStyle(
+  fontSize:20,
+  fontWeight:FontWeight.bold,
+  color:Colors.black
+ )
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>5. Row Widget</h2>
+
+<p>
+Row arranges widgets horizontally.
+</p>
+
+<pre>
+Row(
+ mainAxisAlignment:MainAxisAlignment.spaceBetween,
+ children:[
+  Icon(Icons.home),
+  Icon(Icons.search),
+  Icon(Icons.person)
+ ]
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>6. Column Widget</h2>
+
+<p>
+Column arranges widgets vertically.
+</p>
+
+<pre>
+Column(
+ children:[
+  Text("Title"),
+  Text("Subtitle")
+ ]
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>7. Stack Widget</h2>
+
+<p>
+Stack places widgets on top of each other.
+</p>
+
+<pre>
+Stack(
+ children:[
+  Image.asset("bg.png"),
+  Positioned(
+   bottom:10,
+   child:Text("Overlay Text")
+  )
+ ]
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>8. ListView</h2>
+
+<p>
+ListView creates scrollable lists.
+</p>
+
+<pre>
+ListView.builder(
+ itemCount:10,
+ itemBuilder:(context,index){
+  return ListTile(
+   title:Text("Item $index")
+  );
+ }
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>9. GridView</h2>
+
+<p>
+Displays items in grid format.
+</p>
+
+<pre>
+GridView.count(
+ crossAxisCount:2,
+ children:[
+  Container(color:Colors.red),
+  Container(color:Colors.blue)
+ ]
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>10. Buttons</h2>
+
+<h3>ElevatedButton</h3>
+
+<pre>
+ElevatedButton(
+ onPressed:(){},
+ child:Text("Submit")
+)
+</pre>
+
+<h3>OutlinedButton</h3>
+
+<pre>
+OutlinedButton(
+ onPressed:(){},
+ child:Text("Cancel")
+)
+</pre>
+
+<h3>TextButton</h3>
+
+<pre>
+TextButton(
+ onPressed:(){},
+ child:Text("Skip")
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>11. Input Widgets</h2>
+
+<h3>TextField</h3>
+
+<pre>
+TextField(
+ decoration:InputDecoration(
+  labelText:"Name"
+ )
+)
+</pre>
+
+<h3>Checkbox</h3>
+
+<pre>
+Checkbox(
+ value:true,
+ onChanged:(value){}
+)
+</pre>
+
+<h3>Switch</h3>
+
+<pre>
+Switch(
+ value:true,
+ onChanged:(value){}
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>12. Navigation</h2>
+
+<p>
+Navigation allows moving between screens.
+</p>
+
+<pre>
+Navigator.push(
+ context,
+ MaterialPageRoute(
+  builder:(context)=>SecondScreen()
+ )
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>13. SafeArea</h2>
+
+<p>
+SafeArea prevents UI from overlapping with system areas.
+</p>
+
+<pre>
+SafeArea(
+ child:Text("Safe UI")
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>14. MediaQuery (Responsive Design)</h2>
+
+<p>
+MediaQuery helps build responsive layouts.
+</p>
+
+<pre>
+double width = MediaQuery.of(context).size.width;
+double height = MediaQuery.of(context).size.height;
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>15. Form and Validation</h2>
+
+<pre>
+Form(
+ key:_formKey,
+ child:Column(
+  children:[
+
+   TextFormField(
+    validator:(value){
+     if(value!.isEmpty){
+      return "Enter name";
+     }
+     return null;
+    }
+   ),
+
+   ElevatedButton(
+    onPressed:(){
+     if(_formKey.currentState!.validate()){
+      print("Valid");
+     }
+    },
+    child:Text("Submit")
+   )
+
+  ]
+ )
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>16. Animations</h2>
+
+<h3>AnimatedContainer</h3>
+
+<pre>
+AnimatedContainer(
+ duration:Duration(seconds:1),
+ width:100,
+ height:100,
+ color:Colors.red
+)
+</pre>
+
+<h3>Hero Animation</h3>
+
+<pre>
+Hero(
+ tag:"image",
+ child:Image.asset("img.png")
+)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>17. Layout Best Practices</h2>
+
+<pre>
+MaterialApp
+   |
+Scaffold
+   |
+SafeArea
+   |
+Column / Row
+   |
+Expanded / Flexible
+   |
+Container / Card
+   |
+Text / Image / Buttons
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>18. Important Widgets Every Developer Should Know</h2>
+
+<ul>
+
+<li>Container</li>
+<li>Text</li>
+<li>Row</li>
+<li>Column</li>
+<li>Stack</li>
+<li>Expanded</li>
+<li>Flexible</li>
+<li>Padding</li>
+<li>SizedBox</li>
+<li>ListView</li>
+<li>GridView</li>
+<li>TextField</li>
+<li>Form</li>
+<li>Navigator</li>
+<li>Hero</li>
+<li>AnimatedContainer</li>
+<li>FutureBuilder</li>
+<li>StreamBuilder</li>
+<li>PageView</li>
+<li>TabBar</li>
+<li>Drawer</li>
+<li>BottomNavigationBar</li>
+
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>Final Advice for Beginners</h2>
+
+<ul>
+
+<li>Practice UI layout every day</li>
+<li>Build small projects</li>
+<li>Understand widget tree</li>
+<li>Learn state management</li>
+<li>Focus on responsive UI</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
