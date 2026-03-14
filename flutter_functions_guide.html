@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flutter Functions & Methods Guide</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#f7f7f7;
+}
+h1,h2,h3{
+    color:#2c3e50;
+}
+pre{
+    background:#1e1e1e;
+    color:#ffffff;
+    padding:15px;
+    border-radius:6px;
+    overflow-x:auto;
+}
+section{
+    background:white;
+    padding:25px;
+    margin-bottom:25px;
+    border-radius:8px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+
+<body>
+
+<h1>Flutter / Dart Functions & Methods Guide</h1>
+
+<section>
+<h2>1. Basic Function Syntax</h2>
+<p>Basic structure of a function in Flutter (Dart):</p>
+
+<pre>
+returnType functionName(parameters) {
+  // code
+  return value;
+}
+</pre>
+
+<p>Example:</p>
+
+<pre>
+int addNumbers(int a, int b) {
+  return a + b;
+}
+</pre>
+</section>
+
+<section>
+<h2>2. Simple Function</h2>
+
+<pre>
+void showMessage() {
+  print("Hello Flutter");
+}
+</pre>
+
+<p>Call the function:</p>
+
+<pre>
+showMessage();
+</pre>
+</section>
+
+<section>
+<h2>3. Function With Parameters</h2>
+
+<pre>
+void greetUser(String name) {
+  print("Hello $name");
+}
+</pre>
+
+<pre>
+greetUser("Bhavesh");
+</pre>
+
+</section>
+
+<section>
+<h2>4. Function With Return Value</h2>
+
+<pre>
+double calculatePrice(double price, double tax) {
+  return price + tax;
+}
+</pre>
+
+<pre>
+var total = calculatePrice(100, 18);
+</pre>
+</section>
+
+<section>
+<h2>5. Arrow Function (Short Syntax)</h2>
+
+<p>Used for single-line logic.</p>
+
+<pre>
+int square(int number) => number * number;
+</pre>
+
+</section>
+
+<section>
+<h2>6. Named Parameters (Common in Flutter)</h2>
+
+<pre>
+void createUser({String? name, int? age}) {
+  print("Name: $name");
+  print("Age: $age");
+}
+</pre>
+
+<pre>
+createUser(name: "Bhavesh", age: 25);
+</pre>
+
+</section>
+
+<section>
+<h2>7. Required Named Parameters</h2>
+
+<pre>
+void createUser({
+  required String name,
+  required int age,
+}) {
+  print(name);
+}
+</pre>
+
+<pre>
+createUser(name: "Bhavesh", age: 25);
+</pre>
+
+</section>
+
+<section>
+<h2>8. Default Parameter Values</h2>
+
+<pre>
+void printMessage({String message = "Hello"}) {
+  print(message);
+}
+</pre>
+
+<pre>
+printMessage();
+printMessage(message: "Flutter");
+</pre>
+
+</section>
+
+<section>
+<h2>9. Async Functions (Important in Flutter)</h2>
+
+<p>Used for API calls, Firebase, database operations.</p>
+
+<pre>
+Future<String> fetchData() async {
+  await Future.delayed(Duration(seconds: 2));
+  return "Data Loaded";
+}
+</pre>
+
+</section>
+
+<section>
+<h2>10. Private Functions</h2>
+
+<p>Use underscore (_) to make a function private to the file.</p>
+
+<pre>
+void _loadUserData() {
+  print("Loading user data");
+}
+</pre>
+
+</section>
+
+<section>
+<h2>11. Functions Inside Widgets</h2>
+
+<pre>
+class HomeScreen extends StatelessWidget {
+
+  void _showMessage() {
+    print("Button clicked");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _showMessage,
+          child: Text("Click"),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+
+</section>
+
+<section>
+<h2>12. Callback Functions</h2>
+
+<pre>
+ElevatedButton(
+  onPressed: () {
+    print("Pressed");
+  },
+)
+</pre>
+
+<p>Passing function reference:</p>
+
+<pre>
+ElevatedButton(
+  onPressed: submitForm,
+)
+</pre>
+
+<pre>
+void submitForm() {
+  print("Submitted");
+}
+</pre>
+
+</section>
+
+<section>
+<h2>13. Functions Returning Widgets</h2>
+
+<pre>
+Widget buildButton() {
+  return ElevatedButton(
+    onPressed: () {},
+    child: Text("Submit"),
+  );
+}
+</pre>
+
+</section>
+
+<section>
+<h2>14. Generic Functions</h2>
+
+<pre>
+T getFirstItem<T>(List<T> items) {
+  return items.first;
+}
+</pre>
+
+</section>
+
+<section>
+<h2>15. Best Practices</h2>
+
+<ul>
+<li>Keep functions small and readable</li>
+<li>Use meaningful function names</li>
+<li>Avoid business logic inside UI widgets</li>
+<li>Use async/await properly</li>
+<li>Separate API logic into services</li>
+</ul>
+
+</section>
+
+<section>
+<h2>16. Real Flutter Example</h2>
+
+<pre>
+class LoginController {
+
+  Future<bool> loginUser({
+    required String email,
+    required String password,
+  }) async {
+
+    if (email.isEmpty || password.isEmpty) {
+      return false;
+    }
+
+    var response = await ApiService.login(email, password);
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+
+    return false;
+  }
+}
+</pre>
+
+</section>
+
+<section>
+<h2>Conclusion</h2>
+
+<p>Writing good functions in Flutter improves readability, maintainability, and scalability of applications.</p>
+
+<ul>
+<li>Use small functions</li>
+<li>Use required named parameters</li>
+<li>Use async/await for API calls</li>
+<li>Separate logic from UI</li>
+<li>Follow clean architecture</li>
+</ul>
+
+</section>
+
+</body>
+</html>
