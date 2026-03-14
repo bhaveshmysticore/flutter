@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Flutter MVVM Architecture Guide</title>
+<style>
+body{
+font-family: Arial;
+margin:40px;
+line-height:1.6;
+background:#f4f6f8;
+}
+h1,h2,h3{
+color:#2c3e50;
+}
+code{
+background:#eee;
+padding:4px;
+}
+pre{
+background:#272822;
+color:#f8f8f2;
+padding:15px;
+overflow:auto;
+}
+.section{
+background:white;
+padding:20px;
+margin-bottom:25px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.05);
+}
+</style>
+</head>
+
+<body>
+
+<h1>Flutter MVVM Architecture Example</h1>
+
+<div class="section">
+<h2>1. What is MVVM?</h2>
+
+<p>MVVM means:</p>
+
+<ul>
+<li><b>Model</b> → Data structure</li>
+<li><b>View</b> → UI Screen</li>
+<li><b>ViewModel</b> → Business Logic</li>
+</ul>
+
+<p>This architecture keeps the code clean and maintainable.</p>
+
+</div>
+
+<div class="section">
+
+<h2>2. Recommended Project Folder Structure</h2>
+
+<pre>
+lib
+│
+├── main.dart
+│
+├── models
+│   └── product_model.dart
+│
+├── services
+│   ├── api_service.dart
+│   └── database_service.dart
+│
+├── viewmodels
+│   └── product_viewmodel.dart
+│
+├── views
+│   ├── product_list_screen.dart
+│   └── product_grid_screen.dart
+│
+└── widgets
+    └── product_card.dart
+</pre>
+
+<p>Each folder has a specific responsibility.</p>
+
+</div>
+
+<div class="section">
+
+<h2>3. Model (Product Model)</h2>
+
+<p>This represents API data.</p>
+
+<pre>
+class Product {
+
+final int id;
+final String title;
+final String image;
+
+Product({
+required this.id,
+required this.title,
+required this.image
+});
+
+factory Product.fromJson(Map<String,dynamic> json){
+
+return Product(
+id: json["id"],
+title: json["title"],
+image: json["image"]
+);
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>4. API Service</h2>
+
+<p>This file is responsible for calling API.</p>
+
+<pre>
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../models/product_model.dart';
+
+class ApiService {
+
+Future<List<Product>> fetchProducts() async {
+
+final response = await http.get(
+Uri.parse("https://fakestoreapi.com/products")
+);
+
+if(response.statusCode == 200){
+
+List data = jsonDecode(response.body);
+
+return data.map((e)=>Product.fromJson(e)).toList();
+
+}else{
+
+throw Exception("Failed to load products");
+
+}
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>5. Local Database (SQLite)</h2>
+
+<p>This stores products locally.</p>
+
+<pre>
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class DatabaseService {
+
+static Database? _db;
+
+Future<Database> get database async {
+
+if(_db != null) return _db!;
+
+_db = await initDB();
+
+return _db!;
+
+}
+
+Future<Database> initDB() async {
+
+final path = join(await getDatabasesPath(),"product.db");
+
+return openDatabase(
+path,
+version:1,
+onCreate:(db,version){
+
+db.execute(
+"CREATE TABLE products(id INTEGER PRIMARY KEY,title TEXT,image TEXT)"
+);
+
+}
+);
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>6. ViewModel</h2>
+
+<p>This connects API and UI.</p>
+
+<pre>
+import 'package:flutter/material.dart';
+import '../models/product_model.dart';
+import '../services/api_service.dart';
+
+class ProductViewModel extends ChangeNotifier{
+
+List<Product> products = [];
+
+bool loading = false;
+
+final ApiService api = ApiService();
+
+Future<void> loadProducts() async{
+
+loading = true;
+notifyListeners();
+
+products = await api.fetchProducts();
+
+loading = false;
+notifyListeners();
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>7. List Screen</h2>
+
+<pre>
+class ProductListScreen extends StatelessWidget {
+
+@override
+Widget build(BuildContext context) {
+
+return Scaffold(
+
+appBar: AppBar(title: Text("Product List")),
+
+body: Consumer<ProductViewModel>(
+builder:(context,vm,child){
+
+if(vm.loading){
+
+return Center(child:CircularProgressIndicator());
+
+}
+
+return ListView.builder(
+
+itemCount: vm.products.length,
+
+itemBuilder:(context,index){
+
+var product = vm.products[index];
+
+return ListTile(
+
+leading: Image.network(product.image,width:40),
+
+title: Text(product.title),
+
+);
+
+});
+
+}
+
+)
+
+);
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>8. Grid Screen</h2>
+
+<pre>
+class ProductGridScreen extends StatelessWidget {
+
+@override
+Widget build(BuildContext context) {
+
+return Scaffold(
+
+appBar: AppBar(title: Text("Product Grid")),
+
+body: Consumer<ProductViewModel>(
+
+builder:(context,vm,child){
+
+return GridView.builder(
+
+gridDelegate:
+SliverGridDelegateWithFixedCrossAxisCount(
+crossAxisCount:2
+),
+
+itemCount: vm.products.length,
+
+itemBuilder:(context,index){
+
+var product = vm.products[index];
+
+return Card(
+
+child: Column(
+
+children:[
+
+Image.network(product.image,height:80),
+
+Text(product.title)
+
+]
+
+)
+
+);
+
+}
+
+);
+
+}
+
+)
+
+);
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>9. main.dart</h2>
+
+<pre>
+void main(){
+
+runApp(MyApp());
+
+}
+
+class MyApp extends StatelessWidget {
+
+@override
+Widget build(BuildContext context) {
+
+return ChangeNotifierProvider(
+
+create: (_)=>ProductViewModel()..loadProducts(),
+
+child: MaterialApp(
+
+home: ProductListScreen(),
+
+)
+
+);
+
+}
+
+}
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>10. Required Dependencies</h2>
+
+<p>Add in pubspec.yaml</p>
+
+<pre>
+provider: ^6.0.5
+http: ^1.2.0
+sqflite: ^2.3.0
+path: ^1.9.0
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>11. Data Flow in MVVM</h2>
+
+<p>The application flow works like this:</p>
+
+<pre>
+View (UI Screen)
+     ↓
+ViewModel (Logic)
+     ↓
+API Service / Database
+     ↓
+Model (Data)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>12. Advantages</h2>
+
+<ul>
+<li>Clean code structure</li>
+<li>Easy debugging</li>
+<li>Reusable logic</li>
+<li>Easy team collaboration</li>
+</ul>
+
+</div>
+
+</body>
+</html>
