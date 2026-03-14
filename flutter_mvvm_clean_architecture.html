@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flutter MVVM Clean Architecture Guide</title>
+
+<style>
+
+body{
+font-family: Arial;
+margin:40px;
+line-height:1.6;
+background:#fafafa;
+}
+
+h1{
+color:#2c3e50;
+border-bottom:3px solid #3498db;
+padding-bottom:10px;
+}
+
+h2{
+color:#34495e;
+margin-top:40px;
+}
+
+code{
+background:#eee;
+padding:2px 4px;
+}
+
+pre{
+background:#272822;
+color:#f8f8f2;
+padding:15px;
+overflow:auto;
+}
+
+.section{
+margin-bottom:50px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Flutter MVVM Clean Architecture Complete Guide</h1>
+
+<p>
+This document teaches how large production Flutter apps are built using
+<strong>MVVM + Clean Architecture</strong>.
+</p>
+
+<hr>
+
+<div class="section">
+
+<h2>1. What is Clean Architecture</h2>
+
+<p>
+Clean Architecture separates code into independent layers.
+Each layer has a specific responsibility.
+</p>
+
+<ul>
+<li>Presentation Layer</li>
+<li>Domain Layer</li>
+<li>Data Layer</li>
+</ul>
+
+<p>Benefits:</p>
+
+<ul>
+<li>Easy testing</li>
+<li>Maintainable code</li>
+<li>Scalable projects</li>
+<li>Team collaboration</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>2. MVVM Architecture</h2>
+
+<p>
+MVVM stands for:
+</p>
+
+<ul>
+<li><b>Model</b> → Data layer</li>
+<li><b>View</b> → UI layer</li>
+<li><b>ViewModel</b> → Business logic</li>
+</ul>
+
+Architecture flow:
+
+<pre>
+UI (View)
+   ↓
+ViewModel
+   ↓
+Repository
+   ↓
+Data Source (API / Database)
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>3. Project Folder Structure</h2>
+
+<pre>
+lib/
+
+core/
+  network/
+  errors/
+  logger/
+  constants/
+
+data/
+  datasource/
+  models/
+  repositories/
+
+domain/
+  entities/
+  repositories/
+  usecases/
+
+presentation/
+  view/
+  viewmodel/
+  widgets/
+
+main.dart
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>4. Environment Configuration</h2>
+
+<pre>
+
+class Env {
+
+static const baseUrl = "https://api.example.com";
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>5. Logger Utility</h2>
+
+<pre>
+
+class AppLogger {
+
+static void log(String message){
+
+print("APP_LOG : $message");
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>6. API Client</h2>
+
+<pre>
+
+import 'package:dio/dio.dart';
+
+class ApiClient {
+
+final Dio dio = Dio();
+
+Future<Response> get(String url) async {
+
+try{
+
+return await dio.get(url);
+
+}catch(e){
+
+throw Exception("API Error");
+
+}
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>7. Model Example</h2>
+
+<pre>
+
+class ProductModel {
+
+int id;
+String name;
+
+ProductModel({
+required this.id,
+required this.name
+});
+
+factory ProductModel.fromJson(Map json){
+
+return ProductModel(
+id: json['id'],
+name: json['name']
+);
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>8. Entity (Domain Layer)</h2>
+
+<pre>
+
+class Product {
+
+final int id;
+final String name;
+
+Product(this.id,this.name);
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>9. Repository Interface</h2>
+
+<pre>
+
+abstract class ProductRepository {
+
+Future<List<Product>> getProducts();
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>10. Repository Implementation</h2>
+
+<pre>
+
+class ProductRepositoryImpl implements ProductRepository {
+
+final ApiClient apiClient;
+
+ProductRepositoryImpl(this.apiClient);
+
+@override
+Future<List<Product>> getProducts() async {
+
+final response = await apiClient.get("/products");
+
+List list = response.data;
+
+return list.map((e)=>Product(e["id"],e["name"])).toList();
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>11. Use Case</h2>
+
+<pre>
+
+class GetProducts {
+
+final ProductRepository repository;
+
+GetProducts(this.repository);
+
+Future<List<Product>> call(){
+
+return repository.getProducts();
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>12. ViewModel</h2>
+
+<pre>
+
+import 'package:flutter/material.dart';
+
+class ProductViewModel extends ChangeNotifier {
+
+final GetProducts getProducts;
+
+ProductViewModel(this.getProducts);
+
+List<Product> products = [];
+
+bool loading = false;
+
+Future loadProducts() async{
+
+loading = true;
+notifyListeners();
+
+products = await getProducts();
+
+loading = false;
+notifyListeners();
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>13. UI Screen</h2>
+
+<pre>
+
+class ProductScreen extends StatelessWidget {
+
+@override
+Widget build(BuildContext context){
+
+return Scaffold(
+
+appBar: AppBar(title: Text("Products")),
+
+body: Consumer<ProductViewModel>(
+
+builder:(context,vm,_){
+
+if(vm.loading) return CircularProgressIndicator();
+
+return ListView.builder(
+
+itemCount: vm.products.length,
+
+itemBuilder:(context,index){
+
+final p = vm.products[index];
+
+return ListTile(title: Text(p.name));
+
+});
+
+}
+
+)
+
+);
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>14. Pagination Example</h2>
+
+<pre>
+
+Future<List<Product>> getProducts(int page) async{
+
+final response = await apiClient.get("/products?page=$page");
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>15. Search Example</h2>
+
+<pre>
+
+Future<List<Product>> search(String keyword){
+
+return apiClient.get("/products?search=$keyword");
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>16. Offline Database (SQLite)</h2>
+
+<pre>
+
+class DBHelper {
+
+Future openDB() async{
+
+return openDatabase("app.db");
+
+}
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>17. Dependency Injection</h2>
+
+<pre>
+
+final getIt = GetIt.instance;
+
+void setup(){
+
+getIt.registerLazySingleton<ApiClient>(()=>ApiClient());
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>18. App Entry Point</h2>
+
+<pre>
+
+void main(){
+
+setup();
+
+runApp(MyApp());
+
+}
+
+</pre>
+
+</div>
+
+<div class="section">
+
+<h2>Conclusion</h2>
+
+<p>
+
+Now you understand:
+
+</p>
+
+<ul>
+
+<li>MVVM Architecture</li>
+<li>Clean Architecture</li>
+<li>Repository Pattern</li>
+<li>API Integration</li>
+<li>Pagination</li>
+<li>Search</li>
+<li>Offline Database</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
