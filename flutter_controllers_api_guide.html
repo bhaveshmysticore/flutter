@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flutter Controllers and API Handling Guide</title>
+<style>
+body{font-family:Arial, sans-serif;margin:40px;background:#f5f6fa;line-height:1.6;}
+h1,h2,h3{color:#2c3e50;}
+section{background:white;padding:25px;margin-bottom:25px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+pre{background:#1e1e1e;color:#fff;padding:15px;border-radius:6px;overflow-x:auto;}
+ul{margin-left:20px;}
+</style>
+</head>
+
+<body>
+
+<h1>Flutter Controllers & API Handling Guide</h1>
+
+<section>
+<h2>1. What is a Controller in Flutter?</h2>
+<p>
+A controller manages the business logic of the application. 
+Instead of writing logic inside UI widgets, developers move logic to controllers.
+This keeps UI clean and improves maintainability.
+</p>
+
+<ul>
+<li>Handle API calls</li>
+<li>Manage state</li>
+<li>Process business logic</li>
+<li>Send data to UI</li>
+</ul>
+</section>
+
+<section>
+<h2>2. Example Project Structure</h2>
+
+<pre>
+lib/
+ ├── main.dart
+ ├── core/
+ │    ├── api/
+ │    │    └── api_service.dart
+ │    └── constants/
+ ├── features/
+ │    └── users/
+ │         ├── controller/
+ │         │      └── user_controller.dart
+ │         ├── model/
+ │         │      └── user_model.dart
+ │         ├── service/
+ │         │      └── user_api.dart
+ │         └── view/
+ │                └── user_screen.dart
+</pre>
+
+</section>
+
+<section>
+<h2>3. User Model</h2>
+
+<pre>
+class UserModel {
+  final int id;
+  final String name;
+  final String email;
+
+  UserModel({
+    required this.id,
+    required this.name,
+    required this.email,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+    );
+  }
+}
+</pre>
+
+</section>
+
+<section>
+<h2>4. API Service (Common HTTP Logic)</h2>
+
+<pre>
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class ApiService {
+
+  static Future<dynamic> getRequest(String url) async {
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("API Failed");
+    }
+
+  }
+
+}
+</pre>
+
+</section>
+
+<section>
+<h2>5. API Layer (Feature Specific API)</h2>
+
+<pre>
+class UserApi {
+
+  static Future<List<UserModel>> fetchUsers() async {
+
+    final data = await ApiService.getRequest(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+
+    List users = data;
+
+    return users.map((e) => UserModel.fromJson(e)).toList();
+
+  }
+
+}
+</pre>
+
+</section>
+
+<section>
+<h2>6. Controller Example</h2>
+
+<pre>
+class UserController {
+
+  List<UserModel> users = [];
+
+  bool isLoading = false;
+
+  Future<void> loadUsers() async {
+
+    try {
+
+      isLoading = true;
+
+      users = await UserApi.fetchUsers();
+
+    } catch (e) {
+
+      print(e);
+
+    } finally {
+
+      isLoading = false;
+
+    }
+
+  }
+
+}
+</pre>
+
+</section>
+
+<section>
+<h2>7. Using Controller in UI</h2>
+
+<pre>
+class UserScreen extends StatefulWidget {
+  @override
+  _UserScreenState createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+
+  final controller = UserController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.loadUsers();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(title: Text("Users")),
+
+      body: ListView.builder(
+        itemCount: controller.users.length,
+        itemBuilder: (context,index){
+
+          final user = controller.users[index];
+
+          return ListTile(
+            title: Text(user.name),
+            subtitle: Text(user.email),
+          );
+
+        },
+      ),
+    );
+  }
+}
+</pre>
+
+</section>
+
+<section>
+<h2>8. POST API Example</h2>
+
+<pre>
+static Future createUser(String name,String email) async {
+
+  final response = await http.post(
+    Uri.parse("https://example.com/users"),
+    body:{
+      "name":name,
+      "email":email
+    }
+  );
+
+  if(response.statusCode == 200){
+    return true;
+  }
+
+  return false;
+}
+</pre>
+
+</section>
+
+<section>
+<h2>9. Error Handling Best Practice</h2>
+
+<pre>
+Future<void> loadUsers() async {
+
+  try {
+
+    isLoading = true;
+
+    users = await UserApi.fetchUsers();
+
+  } catch (e) {
+
+    print("Error: $e");
+
+  } finally {
+
+    isLoading = false;
+
+  }
+
+}
+</pre>
+
+</section>
+
+<section>
+<h2>10. Best Practices Used in Production Apps</h2>
+
+<ul>
+<li>Separate API logic from UI</li>
+<li>Use controllers or providers for business logic</li>
+<li>Use models for API data</li>
+<li>Use services for common network code</li>
+<li>Handle API errors properly</li>
+<li>Keep widgets clean and simple</li>
+</ul>
+
+</section>
+
+<section>
+<h2>Conclusion</h2>
+
+<p>
+Using controllers and separate API layers makes Flutter apps scalable and maintainable.
+This structure is used in most professional Flutter applications.
+</p>
+
+</section>
+
+</body>
+</html>
